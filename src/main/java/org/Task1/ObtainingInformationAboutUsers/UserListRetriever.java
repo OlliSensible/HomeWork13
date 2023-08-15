@@ -1,8 +1,9 @@
-package org.Task1.AddUsers;
+package org.Task1.ObtainingInformationAboutUsers;
 
+import org.Common.BaseUrlProvider;
+import org.Task1.Models.UserEntity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import org.Task1.Models.UserEntity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,12 +15,16 @@ import java.util.List;
 
 public class UserListRetriever {
 
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com/users";
-    static final Gson gson = new Gson();
+    private final BaseUrlProvider baseUrlProvider;
+    public static final Gson gson = new Gson();
+
+    public UserListRetriever(BaseUrlProvider baseUrlProvider) {
+        this.baseUrlProvider = baseUrlProvider;
+    }
 
     public List<UserEntity> getUsers() {
         try {
-            URL url = new URL(BASE_URL);
+            URL url = new URL(baseUrlProvider.getBaseUrl());
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -31,8 +36,7 @@ public class UserListRetriever {
                     while ((line = reader.readLine()) != null) {
                         response.append(line);
                     }
-                    Type userListType = new TypeToken<List<UserEntity>>() {
-                    }.getType();
+                    Type userListType = new TypeToken<List<UserEntity>>() {}.getType();
                     return gson.fromJson(response.toString(), userListType);
                 }
             }

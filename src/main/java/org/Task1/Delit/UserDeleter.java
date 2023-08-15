@@ -1,4 +1,6 @@
-package org.Task1.AddUsers;
+package org.Task1.Delit;
+
+import org.Common.BaseUrlProvider;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -6,11 +8,16 @@ import java.net.URL;
 
 public class UserDeleter {
 
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com/users";
+    private final BaseUrlProvider baseUrlProvider;
+
+    public UserDeleter(BaseUrlProvider baseUrlProvider) {
+        this.baseUrlProvider = baseUrlProvider;
+    }
 
     public boolean deleteUser(int id) {
         try {
-            URL url = new URL(BASE_URL + "/" + id);
+            String baseUrl = baseUrlProvider.getBaseUrl();
+            URL url = new URL(baseUrl + "/" + id);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             int responseCode = connection.getResponseCode();
             connection.disconnect();
@@ -20,5 +27,14 @@ public class UserDeleter {
         }
 
         return false;
+    }
+
+    public int getResponseCodeAfterDelete(int id) throws IOException {
+        String baseUrl = baseUrlProvider.getBaseUrl();
+        URL url = new URL(baseUrl + "/" + id);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        int responseCode = connection.getResponseCode();
+        connection.disconnect();
+        return responseCode;
     }
 }

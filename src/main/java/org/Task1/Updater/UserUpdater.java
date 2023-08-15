@@ -1,6 +1,8 @@
-package org.Task1.AddUsers;
+package org.Task1.Updater;
 
+import org.Task1.AddUsers.UserCrudApp;
 import org.Task1.Models.UserEntity;
+import org.Common.BaseUrlProvider;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,11 +11,16 @@ import java.net.URL;
 
 public class UserUpdater {
 
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com/users";
+    private final BaseUrlProvider baseUrlProvider;
+
+    public UserUpdater(BaseUrlProvider baseUrlProvider) {
+        this.baseUrlProvider = baseUrlProvider;
+    }
 
     public UserEntity updateUser(int id) {
         try {
-            URL url = new URL(BASE_URL + "/" + id);
+            String baseUrl = baseUrlProvider.getBaseUrl();
+            URL url = new URL(baseUrl + "/users/" + id);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("PUT");
             connection.setRequestProperty("Content-Type", "application/json");

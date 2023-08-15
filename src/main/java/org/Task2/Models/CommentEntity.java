@@ -1,4 +1,4 @@
-package org.Task2;
+package org.Task2.Models;
 
 
 import lombok.ToString;

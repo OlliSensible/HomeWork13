@@ -1,2 +1,5 @@
-package org.Common;public interface BaseUrlProvider {
+package org.Common;
+
+public interface BaseUrlProvider {
+    String getBaseUrl();
 }

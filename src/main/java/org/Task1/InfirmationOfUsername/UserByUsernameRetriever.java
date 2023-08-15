@@ -1,7 +1,8 @@
-package org.Task1.ObtainingInformationAboutUsers;
+package org.Task1.InfirmationOfUsername;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import org.Common.BaseUrlProvider;
 import org.Task1.Models.UserEntity;
 
 import java.io.BufferedReader;
@@ -14,12 +15,16 @@ import java.util.Optional;
 
 public class UserByUsernameRetriever {
 
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com/users";
-    private static final Gson gson = new Gson();
+    private final BaseUrlProvider baseUrlProvider;
+
+    public UserByUsernameRetriever(BaseUrlProvider baseUrlProvider) {
+        this.baseUrlProvider = baseUrlProvider;
+    }
 
     public Optional<UserEntity> getUserByUsername(String username) {
         try {
-            URL url = new URL(BASE_URL + "?username=" + username);
+            String baseUrl = baseUrlProvider.getBaseUrl();
+            URL url = new URL(baseUrl + "/users?username=" + username);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -31,8 +36,7 @@ public class UserByUsernameRetriever {
                     while ((line = reader.readLine()) != null) {
                         response.append(line);
                     }
-                    List<UserEntity> users = gson.fromJson(response.toString(), new TypeToken<List<UserEntity>>() {
-                    }.getType());
+                    List<UserEntity> users = new Gson().fromJson(response.toString(), new TypeToken<List<UserEntity>>() {}.getType());
                     if (!users.isEmpty()) {
                         return Optional.of(users.get(0));
                     }

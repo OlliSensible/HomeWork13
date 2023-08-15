@@ -1,6 +1,7 @@
-package org.Task1.ObtainingInformationAboutUsers;
+package org.Task1.InfirmationOfID;
 
 import com.google.gson.Gson;
+import org.Common.BaseUrlProvider;
 import org.Task1.Models.UserEntity;
 
 import java.io.BufferedReader;
@@ -12,12 +13,16 @@ import java.util.Optional;
 
 public class UserByIdRetriever {
 
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com/users";
-    private static final Gson gson = new Gson();
+    private final BaseUrlProvider baseUrlProvider;
+
+    public UserByIdRetriever(BaseUrlProvider baseUrlProvider) {
+        this.baseUrlProvider = baseUrlProvider;
+    }
 
     public Optional<UserEntity> getUserById(int id) {
         try {
-            URL url = new URL(BASE_URL + "/" + id);
+            String baseUrl = baseUrlProvider.getBaseUrl();
+            URL url = new URL(baseUrl + "/users/" + id);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -29,7 +34,7 @@ public class UserByIdRetriever {
                     while ((line = reader.readLine()) != null) {
                         response.append(line);
                     }
-                    UserEntity user = gson.fromJson(response.toString(), UserEntity.class);
+                    UserEntity user = new Gson().fromJson(response.toString(), UserEntity.class);
                     return Optional.ofNullable(user);
                 }
             }

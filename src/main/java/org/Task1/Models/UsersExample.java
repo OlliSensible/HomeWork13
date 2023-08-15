@@ -1,4 +1,4 @@
-package org.Models;
+package org.Task1.Models;
 
 public class UsersExample {
     public static UserEntity createUserExample() {
@@ -13,7 +13,7 @@ public class UsersExample {
         company.setCatchPhrase("Proud and Ambitious");
         company.setBs("Wizarding Markets Leader");
 
-        UserEntity user = new UserEntity(1, "Draco Malfoy", "dracomalfoy", "draco.malfoy@example.com", address, "1-234-567-8901", "malfoy.manor", company);
+        UserEntity user = new UserEntity(11, "Draco Malfoy", "dracomalfoy", "draco.malfoy@example.com", address, "1-234-567-8901", "malfoy.manor", company);
 
         return user;
     }

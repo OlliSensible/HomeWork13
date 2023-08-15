@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.Task1.Models.UserEntity;
 import org.Task1.Models.UsersExample;
 
-public class Main {
+public class UserCreatorTest {
     public static void main(String[] args) {
         UserEntity newUser = UsersExample.createUserExample();
 
